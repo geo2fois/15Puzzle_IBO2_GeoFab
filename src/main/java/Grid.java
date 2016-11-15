@@ -32,7 +32,7 @@ public class Grid {
 
              for(k=0; k<temp.length; k++ ) {    // recherche si nb est un doublon
                  if (nb == temp[k]) {
-                     Doublon = true;
+                     Doublon = true;    // si nb est un doublon => recommencer
                  }
              }
 
