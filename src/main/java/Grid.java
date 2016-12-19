@@ -26,24 +26,24 @@ public class Grid {
 
         // Remplissage du tableau temporaire sans doublon
 
-         while(cpt<=(x*y)){
-             boolean Doublon = false;
-             nb= Min + (int)(Math.random() * ((Max - Min) + 1));    // Nombre aléatoire
+        while(cpt<=(x*y)){
+            boolean Doublon = false;
+            nb= Min + (int)(Math.random() * ((Max - Min) + 1));    // Nombre aléatoire
 
-             for(k=0; k<temp.length; k++ ) {    // recherche si nb est un doublon
-                 if (nb == temp[k]) {
-                     Doublon = true;    // si nb est un doublon => recommencer
-                 }
-             }
+            for(k=0; k<temp.length; k++ ) {    // recherche si nb est un doublon
+                if (nb == temp[k]) {
+                    Doublon = true;    // si nb est un doublon => recommencer
+                }
+            }
 
-             if(Doublon == false){  // si nb n'est pas un doublon => remplissage du tableau temporaire
-                 temp[cpt] = nb;
-                 cpt = cpt + 1;
-             }
-             if(cpt==(x*y)){    // sortie du while lorsque tout les pions ont été générés
-                 break;
-             }
-         }
+            if(Doublon == false){  // si nb n'est pas un doublon => remplissage du tableau temporaire
+                temp[cpt] = nb;
+                cpt = cpt + 1;
+            }
+            if(cpt==(x*y)){    // sortie du while lorsque tout les pions ont été générés
+                break;
+            }
+        }
 
         // Remplissage du tableau et affichage de la grille de jeu à partir du tableau temporaire
 
@@ -53,9 +53,9 @@ public class Grid {
             for (int j = 0; j < y; j++) {   // remplissage colonnes
                 tab[i][j] = temp[cpt];
                 cpt = cpt+1;
-                System.out.print(" || " + tab[i][j]);
+                System.out.print(" || " + String.format("%4d",tab[i][j]));
                 if (j == (y - 1)) {
-                    System.out.print(" || ");
+                    System.out.print(" || "); // TESTESTEST
                 }
             }
             System.out.print("\n");
