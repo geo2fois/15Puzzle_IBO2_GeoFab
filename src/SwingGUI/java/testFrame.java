@@ -19,9 +19,9 @@ public class testFrame{
         Box box2 = new Box(BoxLayout.X_AXIS);
         Box box3 = new Box(BoxLayout.X_AXIS);
         Box box4 = new Box(BoxLayout.X_AXIS);
-        b1.setPreferredSize(new Dimension(500, 500));
+       //b1.setPreferredSize(new Dimension(500, 500));
 
-        box1.add(b1);
+        box1.add(b1, BorderLayout.EAST);
         box1.add(new JButton("Bouton 2"));
         box1.add(new JButton("Bouton 3"));
         box1.add(new JButton("Bouton 4"));
@@ -51,7 +51,7 @@ public class testFrame{
         // menu.add(menuItem);
         menuBar.add(menu);
 
-        panel.add(box1);
+        panel.add(box1, new BorderLayout().EAST);
         panel.add(box2);
         panel.add(box3);
         panel.add(box4);

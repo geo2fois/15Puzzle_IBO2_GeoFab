@@ -8,12 +8,6 @@ public class box {
     private int y;
     private int value;
 
-    public box() {
-        x=0;
-        y=0;
-        value=0;
-    }
-
     public box(int x, int y, int value) {
         this.x = x;
         this.y = y;
