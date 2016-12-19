@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/15Puzzle_IBO2_GeoFab.iml" filepath="$PROJECT_DIR$/15Puzzle_IBO2_GeoFab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Maven/MavenModuleArtifactID.iml" filepath="$PROJECT_DIR$/Maven/MavenModuleArtifactID.iml" />
     </modules>
   </component>
 </project>
