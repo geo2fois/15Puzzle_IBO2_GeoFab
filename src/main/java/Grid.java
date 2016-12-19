@@ -55,7 +55,7 @@ public class Grid {
                 cpt = cpt+1;
                 System.out.print(" || " + String.format("%4d",tab[i][j]));
                 if (j == (y - 1)) {
-                    System.out.print(" || "); // TESTESTEST
+                    System.out.print(" || ");
                 }
             }
             System.out.print("\n");
