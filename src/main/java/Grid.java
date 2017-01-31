@@ -6,7 +6,7 @@
 
 import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 
-import java.util.Arrays;
+import java.util.*;
 // comment test push github
 // La class Grid génère le plateau du Puzzle de dimension (x,y)
 
@@ -60,5 +60,15 @@ public class Grid {
             }
             System.out.print("\n");
         }
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Veuillez saisir un mot :");
+
+        String str = sc.nextLine();
+
+        System.out.println("Vous avez saisi : " + str);
     }
+
+
 }

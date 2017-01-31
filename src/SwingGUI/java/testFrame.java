@@ -1,65 +1,97 @@
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  * Created by geoff on 19/12/2016.
  */
 
-public class testFrame{
+public class testFrame extends JFrame{
 
-    public static void main(String argv[]) {
+        JFrame GUI = new JFrame("Game plate");
+        //GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        GridLayout Gridtable = new GridLayout(4,4);
 
-        JFrame f = new JFrame("Game plate");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel();
-        JButton b1 = new JButton("Bouton 1");
+        testFrame() {
+            this.setSize(1000,500);
+            int x=this.getWidth();
+            int y=this.getHeight();
+            panel1.setLayout(Gridtable);
+            panel1.setPreferredSize(new Dimension(x/2,y));
+            panel1.setBackground(Color.DARK_GRAY);
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        Box box1 = new Box(BoxLayout.X_AXIS);
-        Box box2 = new Box(BoxLayout.X_AXIS);
-        Box box3 = new Box(BoxLayout.X_AXIS);
-        Box box4 = new Box(BoxLayout.X_AXIS);
-       //b1.setPreferredSize(new Dimension(500, 500));
+            panel2.setLayout(new GridLayout(4,4));
+            panel2.setPreferredSize(new Dimension(x/2,y));
+            panel2.setBackground(Color.DARK_GRAY);
 
-        box1.add(b1, BorderLayout.EAST);
-        box1.add(new JButton("Bouton 2"));
-        box1.add(new JButton("Bouton 3"));
-        box1.add(new JButton("Bouton 4"));
+            panel1.add(new JButton("1"));
+            panel1.add(new JButton("2"));
+            panel1.add(new JButton("3"));
+            panel1.add(new JButton("4"));
+            panel1.add(new JButton("5"));
+            panel1.add(new JButton("6"));
+            panel1.add(new JButton("7"));
+            panel1.add(new JButton("8"));
+            panel1.add(new JButton("9"));
+            panel1.add(new JButton("10"));
+            panel1.add(new JButton("11"));
+            panel1.add(new JButton("12"));
+            panel1.add(new JButton("13"));
+            panel1.add(new JButton("14"));
+            panel1.add(new JButton("15"));
+            panel1.add(new JButton("0"));
 
-        box2.add(new JButton("Bouton 5"));
-        box2.add(new JButton("Bouton 6"));
-        box2.add(new JButton("Bouton 7"));
-        box2.add(new JButton("Bouton 8"));
+            panel2.add(new Label("MENU HERE"));
 
-        box3.add(new JButton("Bouton 9"));
-        box3.add(new JButton("Bouton 10"));
-        box3.add(new JButton("Bouton 11"));
-        box3.add(new JButton("Bouton 12"));
+            GUI.add(panel1);
+            GUI.add(panel2, BorderLayout.EAST);
 
-        box4.add(new JButton("Bouton 13"));
-        box4.add(new JButton("Bouton 14"));
-        box4.add(new JButton("Bouton 15"));
-        box4.add(new JButton("Bouton 0"));
+            GUI.setMinimumSize(new Dimension(1000, 500));
+            GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //Set up the content pane.
+            GUI.getContentPane();
+            //Display the window.
+            GUI.pack();
+            GUI.setVisible(true);
+        }
+
+    public static void main(String[] args) {
+
+        try{
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 
 
-
-
-        JMenuBar menuBar = new JMenuBar();
-        f.setJMenuBar(menuBar);
-
-        JMenu menu = new JMenu("Fichier");
-        // menu.add(menuItem);
-        menuBar.add(menu);
-
-        panel.add(box1, new BorderLayout().EAST);
-        panel.add(box2);
-        panel.add(box3);
-        panel.add(box4);
-        f.setContentPane(panel);
-        f.setMinimumSize(new Dimension(800, 800));
-        b1.setMinimumSize(new Dimension(500, 500));
-        f.pack();
-        f.setVisible(true);
+            new testFrame();
+        }
+        catch (Exception e)
+        {
+        }
 
     }
 }
+/*
+
+
+
+
+
+
+            panel1.add(new JButton("1"));
+            panel1.add(new JButton("2"));
+            panel1.add(new JButton("3"));
+            panel1.add(new JButton("4"));
+            panel1.add(new JButton("5"));
+            panel1.add(new JButton("6"));
+            panel1.add(new JButton("7"));
+            panel1.add(new JButton("8"));
+            panel1.add(new JButton("9"));
+            panel1.add(new JButton("10"));
+            panel1.add(new JButton("11"));
+            panel1.add(new JButton("12"));
+            panel1.add(new JButton("13"));
+            panel1.add(new JButton("14"));
+            panel1.add(new JButton("15"));
+            panel1.add(new JButton("0"));
+*/
