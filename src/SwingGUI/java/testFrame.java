@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -22,7 +21,7 @@ public class testFrame extends JFrame{
             panel1.setPreferredSize(new Dimension(x/2,y));
             panel1.setBackground(Color.DARK_GRAY);
 
-            panel2.setLayout(new GridLayout(4,4));
+          //  panel2.setLayout(new GridLayout(4,4)); NO NEED
             panel2.setPreferredSize(new Dimension(x/2,y));
             panel2.setBackground(Color.DARK_GRAY);
 
@@ -71,27 +70,3 @@ public class testFrame extends JFrame{
 
     }
 }
-/*
-
-
-
-
-
-
-            panel1.add(new JButton("1"));
-            panel1.add(new JButton("2"));
-            panel1.add(new JButton("3"));
-            panel1.add(new JButton("4"));
-            panel1.add(new JButton("5"));
-            panel1.add(new JButton("6"));
-            panel1.add(new JButton("7"));
-            panel1.add(new JButton("8"));
-            panel1.add(new JButton("9"));
-            panel1.add(new JButton("10"));
-            panel1.add(new JButton("11"));
-            panel1.add(new JButton("12"));
-            panel1.add(new JButton("13"));
-            panel1.add(new JButton("14"));
-            panel1.add(new JButton("15"));
-            panel1.add(new JButton("0"));
-*/
