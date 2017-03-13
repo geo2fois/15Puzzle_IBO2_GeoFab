@@ -77,13 +77,13 @@ public class Tile {
         }
     }
 
-    public Boolean isMovable (Tile t){
-        if (this.getTopTile(t) != null && this.getTopTile(t).getValue() == 0) { return true; }  // Si la Tile au dessus existe ET est égale à 0
-        else if (this.getBottomTile(t) != null && this.getBottomTile(t).getValue() == 0) { return true; }
-        else if (this.getLeftTile(t) != null && this.getLeftTile(t).getValue() == 0) { return true; }
-        else if (this.getRightTile(t) != null && this.getRightTile(t).getValue() == 0) { return true; }
-        else { return false; }
-    }
+//    public Boolean isMovable (Tile t){
+//        if (this.getTopTile(t) != null && this.getTopTile(t).getValue() == 0) { return true; }  // Si la Tile au dessus existe ET est égale à 0
+//        else if (this.getBottomTile(t) != null && this.getBottomTile(t).getValue() == 0) { return true; }
+//        else if (this.getLeftTile(t) != null && this.getLeftTile(t).getValue() == 0) { return true; }
+//        else if (this.getRightTile(t) != null && this.getRightTile(t).getValue() == 0) { return true; }
+//        else { return false; }
+//    }
 //    public static boolean isMovable2(G.tab[x][y]){
 //        if ((G.tab[x-1][y] != -1) && G.tab[x-1][y] == 0) { return true; }  // Si la Tile au dessus existe ET est égale à 0
 //        else if (this.getBottomTile(t) != null && this.getBottomTile(t).getValue() == 0) { return true; }

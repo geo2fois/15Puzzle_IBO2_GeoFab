@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import Gridpack.Grid;
 
 /**
  * Created by geoff on 19/12/2016.
@@ -24,6 +25,9 @@ public class testFrame extends JFrame{
           //  panel2.setLayout(new GridLayout(4,4)); NO NEED
             panel2.setPreferredSize(new Dimension(x/2,y));
             panel2.setBackground(Color.DARK_GRAY);
+
+//            teststr = String.valueOf(G.tab[1][0]);
+//          System.out.println("affichage de grid \"[1][0]\"" + teststr);
 
             panel1.add(new JButton("1"));
             panel1.add(new JButton("2"));

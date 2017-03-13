@@ -15,7 +15,8 @@ public class MAIN {
 
         System.out.println("Here is your gaming Grid :");
         Grid G = new Grid();
-        String teststr;
+        SwingGUI SGUI = new SwingGUI(G);
+//        String teststr;
         int x = 4, y = 4;
 
         while (!G.equals(Gr)) {
@@ -39,6 +40,7 @@ public class MAIN {
                             System.out.println("test ismoveable ok");
                             G.Swap(i,j);
                             G.RefreshGrid();
+                            SGUI.GUIupdating(G);
                             break scanningloop;
                         }
 
