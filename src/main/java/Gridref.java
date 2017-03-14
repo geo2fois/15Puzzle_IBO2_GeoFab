@@ -1,3 +1,5 @@
+import Gridpack.Grid;
+
 /**
  * Created by geoff on 23/02/2017.
  */

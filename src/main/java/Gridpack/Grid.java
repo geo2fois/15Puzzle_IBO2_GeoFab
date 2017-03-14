@@ -9,7 +9,7 @@ import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 import java.util.*;
 
 
-// comment test push github
+
 // La class Grid génère le plateau du Puzzle de dimension (x,y)
 
 public class Grid {
@@ -117,6 +117,8 @@ public class Grid {
                 System.out.print("\n");
             }
         }
+
+
 
 
 
