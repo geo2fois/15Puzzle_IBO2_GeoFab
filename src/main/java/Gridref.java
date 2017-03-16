@@ -1,8 +1,4 @@
-import Gridpack.Grid;
 
-/**
- * Created by geoff on 23/02/2017.
- */
 public class Gridref{
 
     int x = 4, y = 4;   // Gère la taille du plateau

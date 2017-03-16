@@ -1,11 +1,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
+import java.util.List;
 import javax.swing.*;
-import Gridpack.Grid;
-
-
-
 
 public class SwingGUI extends JFrame{
 
@@ -15,6 +13,7 @@ public class SwingGUI extends JFrame{
     JPanel panel2 = new JPanel();
     GridLayout Gridtable = new GridLayout(4,4);
     GridLayout Menutable = new GridLayout(4,1);
+    private List<Grid> result;
 
     public SwingGUI(final Grid g) {
         this.setSize(1000,500);
@@ -30,9 +29,9 @@ public class SwingGUI extends JFrame{
         panel2.setBackground(Color.DARK_GRAY);
 
 
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++) {
-                JButton TileGUI = new JButton(String.valueOf(g.tab[i][j]));
+        for (int j = 0; j < 4; j++)
+            for (int i = 0; i < 4; i++) {
+                JButton TileGUI = new JButton(String.valueOf(g.getTab()[i][j].getValue()));
                 TileGUI.setFont(new Font("Arial", Font.PLAIN, 30));
                 panel1.add(TileGUI);
                 final int finalI = i;
@@ -40,15 +39,15 @@ public class SwingGUI extends JFrame{
                 TileGUI.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("");
-                        System.out.println("You clicked on the Tile: " + String.valueOf(g.tab[finalI][finalJ]));
-                        if (g.ismovable(finalI, finalJ)) {
-                            System.out.println("The Tile " + String.valueOf(g.tab[finalI][finalJ]) + " is movable");
-                            g.Swap(finalI,finalJ);
-                            g.RefreshGrid();
+                        System.out.println("You clicked on the Tile: " + String.valueOf(g.getTab()[finalI][finalJ].getValue()));
+                        if (g.isMoveable(g.getTab()[finalI][finalJ])) {
+                            System.out.println("The Tile " + String.valueOf(g.getTab()[finalI][finalJ].getValue()) + " is movable");
+                            g.Swap(g.getTab()[finalI][finalJ]);
+                            //g.RefreshGrid();
                             GUIupdating(g);
                         }
-                        else if(!g.ismovable(finalI, finalJ)){
-                            System.out.println("The Tile " + String.valueOf(g.tab[finalI][finalJ]) + " is not movable");
+                        else if(!g.isMoveable(g.getTab()[finalI][finalJ])){
+                            System.out.println("The Tile " + String.valueOf(g.getTab()[finalI][finalJ].getValue()) + " is not movable");
                             System.out.println("    ===>Please select another Tile");
                         }
                     }
@@ -76,8 +75,35 @@ public class SwingGUI extends JFrame{
 
         panel2.add(new Label("MENU HERE"));
         JButton Shuffle = new JButton("Shuffle");
-        panel2.add(new JButton("Shuffle"));
-        panel2.add(new JButton("Algo 1"));
+        panel2.add(Shuffle);
+        Shuffle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                g.mix();
+                GUIupdating(g);
+            }
+        });
+        JButton astarButton = new JButton(" A-star ");
+        panel2.add(astarButton);
+        this.result = new ArrayList<Grid>();
+        astarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Astar algoAstar = new Astar(g);
+                int cpt = 0;
+                while(!algoAstar.isFinish()) {
+                    if (cpt%100 == 0) System.out.println(cpt);
+                    algoAstar.begin();
+                    cpt++;
+                }
+                System.out.println("GOOOD!!!!");
+
+                result = algoAstar.getResult();
+                for(int i=result.size()-1; i>-1; i--) {
+                    System.out.println("nb " + i);
+                    GUIupdating(result.get(i));
+                    //Wait
+                }
+            }
+        });
         panel2.add(new JButton("Algo 2"));
 
         GUI.add(panel1);
@@ -92,37 +118,17 @@ public class SwingGUI extends JFrame{
         GUI.setVisible(true);
     }
 
-
     public void GUIupdating(final Grid g){
-        GUI.setVisible(false);
-        panel1.removeAll();
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                JButton TileGUI = new JButton(String.valueOf(g.tab[i][j]));
-                TileGUI.setFont(new Font("Arial", Font.PLAIN, 30));
-                panel1.add(TileGUI);
-                final int finalI = i;
-                final int finalJ = j;
-                TileGUI.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("");
-                        System.out.println("You clicked on the Tile: " + String.valueOf(g.tab[finalI][finalJ]));
-                        if (g.ismovable(finalI, finalJ)) {
-                            System.out.println("The Tile " + String.valueOf(g.tab[finalI][finalJ]) + " is movable");
-                            g.Swap(finalI,finalJ);
-                            g.RefreshGrid();
-                            GUIupdating(g);
-                        }
-                        else if (!g.ismovable(finalI, finalJ)){
-                            System.out.println("The Tile " + String.valueOf(g.tab[finalI][finalJ]) + " is not movable");
-                            System.out.println("    ===>Please select another Tile");
-                        }
-                    }
-                });
+        int iCpt = 0;
+
+        for(int j=0; j < 4; j++) {
+            for(int i=0; i < 4; i++) {
+                JButton a = (JButton) panel1.getComponent(iCpt);
+                a.setText(String.valueOf(g.getTab()[i][j].getValue())) ;
+                iCpt++;
             }
         }
-        GUI.getContentPane();
-        GUI.setVisible(true);
+
     }
 
     public static void main(String[] args) {

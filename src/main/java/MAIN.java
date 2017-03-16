@@ -1,10 +1,4 @@
 import java.util.Scanner;
-import Gridpack.Grid;
-
-/**
- * Created by geoff on 31/01/2017.
- */
-
 
 public class MAIN {
 
@@ -15,6 +9,9 @@ public class MAIN {
 
         System.out.println("Here is your gaming Grid :");
         Grid G = new Grid();
+        G.initGoal();
+        G.mix();
+        G.display();
         SwingGUI SGUI = new SwingGUI(G);
 
         int x = 4, y = 4;
@@ -32,16 +29,16 @@ public class MAIN {
             scanningloop:
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < y; j++) {
-                    if (str.equalsIgnoreCase(String.valueOf(G.tab[i][j]))) {
-                        if (G.ismovable(i, j)) {
-                            System.out.println("The Tile " + String.valueOf(G.tab[i][j]) + " is movable");
-                            G.Swap(i,j);
-                            G.RefreshGrid();
+                    if (str.equalsIgnoreCase(String.valueOf(G.getTab()[i][j]))) {
+                        if (G.isMoveable(G.getTab()[i][j])) {
+                            System.out.println("The Tile " + String.valueOf(G.getTab()[i][j].getValue()) + " is movable");
+                            G.Swap(G.getTab()[i][j]);
+                            //G.RefreshGrid();
                             SGUI.GUIupdating(G);
                             break scanningloop;
                         }
-                        if(!G.ismovable(i, j)){
-                            System.out.println("The Tile " + String.valueOf(G.tab[i][j]) + " is not movable");
+                        if(!G.isMoveable(G.getTab()[i][j])){
+                            System.out.println("The Tile " + String.valueOf(G.getTab()[i][j]) + " is not movable");
                             System.out.println("    ===> Please select another Tile");
                         }
                     }
@@ -59,7 +56,7 @@ public class MAIN {
         int x = 4, y = 4, cpt = 0;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                if(G.tab[i][j] == Gr.tab[i][j]){
+                if(G.getTab()[i][j].getValue() == Gr.tab[i][j]){
                     cpt = cpt +1;
                 }
             }
@@ -67,8 +64,7 @@ public class MAIN {
         if (cpt == 16){
             return true;
         }
-        else return false;
+        return false;
     }
-
 }
 
