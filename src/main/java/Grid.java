@@ -8,7 +8,7 @@ import java.util.List;
 // La class Grid g�n�re le plateau du Puzzle de dimension (x,y)
 public class Grid {
 	
-	public static List<box> goal = new ArrayList<box>();
+	public static List<Tile> goal = new ArrayList<Tile>();
 
 	private int nbMove;
 	private int priority;
@@ -16,20 +16,18 @@ public class Grid {
 	
 	private int rowLength;
 	private int columnLength;
-	private int boxNumber;
-	private box[][] tab;
-	private box boxZero;
+	private int tileNumber;
+	private Tile[][] tab;
+	private Tile tileZero;
 	
 	public Grid() {
 		// G�re la taille du plateau
 		this.rowLength = 4;
 		this.columnLength = 4;
-		this.boxNumber = this.rowLength * this.columnLength;
+		this.tileNumber = this.rowLength * this.columnLength;
 		
 		// Instanciation du tableau du plateau de jeu
-		this.tab = new box[this.rowLength][this.columnLength];
-		//Grid.goal =  new box[this.rowLength][this.columnLength];
-		
+		this.tab = new Tile[this.rowLength][this.columnLength];
 		
 		this.priority = 0;
 		this.nbMove = 0;
@@ -39,14 +37,14 @@ public class Grid {
 		
 		for(int y = 0; y < this.columnLength; y++){
 			for(int x = 0; x < this.rowLength; x++){
-				this.tab[x][y] = new box(x, y, value);
-				if(value == (this.boxNumber)) {
+				this.tab[x][y] = new Tile(x, y, value);
+				if(value == (this.tileNumber)) {
 					this.tab[x][y].setValue(0);
 				}
 				value ++;
 			}
 		}
-		boxZero = findBoxByValue(0);
+		this.tileZero = findTileByValue(0);
 	}
 	
 	public Grid(int length) {
@@ -54,11 +52,10 @@ public class Grid {
 		// G�re la taille du plateau
 		this.rowLength = length;
 		this.columnLength = length;
-		this.boxNumber = this.rowLength * this.columnLength;
+		this.tileNumber = this.rowLength * this.columnLength;
 		
 		// Instanciation du tableau du plateau de jeu
-		this.tab = new box[this.rowLength][this.columnLength];
-		//goal = new box[this.rowLength][this.columnLength];
+		this.tab = new Tile[this.rowLength][this.columnLength];
 		
 		this.priority = 0;
 		this.nbMove = 0;
@@ -68,25 +65,24 @@ public class Grid {
 		
 		for(int y = 0; y < this.columnLength; y++){
 			for(int x = 0; x < this.rowLength; x++){
-				this.tab[x][y] = new box(x, y, value);
-				if(value == (this.boxNumber)) {
+				this.tab[x][y] = new Tile(x, y, value);
+				if(value == (this.tileNumber)) {
 					this.tab[x][y].setValue(0);
 				}
 				value ++;
 			}
 		}
-		boxZero = findBoxByValue(0);
+		this.tileZero = findTileByValue(0);
 	}
 
 	public Grid(Grid copie) {
 		// G�re la taille du plateau
 		this.rowLength = copie.getRowLength();
 		this.columnLength = copie.getColumnLength();
-		this.boxNumber = this.rowLength * this.columnLength;
+		this.tileNumber = this.rowLength * this.columnLength;
 		
 		// Instanciation du tableau du plateau de jeu
-		this.tab = new box[this.rowLength][this.columnLength];
-		//goal = new box[this.rowLength][this.columnLength];
+		this.tab = new Tile[this.rowLength][this.columnLength];
 		
 		this.priority = 0;
 		this.nbMove = copie.getNbMove();
@@ -94,10 +90,10 @@ public class Grid {
 		
 		for(int y = 0; y < this.columnLength; y++){
 			for(int x = 0; x < this.rowLength; x++){
-				this.tab[x][y] = new box(x, y, copie.getTab()[x][y].getValue());
+				this.tab[x][y] = new Tile(x, y, copie.getTab()[x][y].getValue());
 			}
 		}
-		boxZero = findBoxByValue(0);
+		this.tileZero = findTileByValue(0);
 	}
 	
 	public void mix() {
@@ -105,32 +101,32 @@ public class Grid {
 		int higher = 5;
 		int random = 0;
 		int i = 0;
-		while(i<40) {
+		while(i<60) {
 
 			random = (int)(Math.random() * (higher-lower)) + lower;
 
 			switch (random)
 			{
 				case 1:
-					if(this.findBoxByValue(0).getY() > 0) {
+					if(this.findTileByValue(0).getY() > 0) {
 						this.zeroUp();
 						i++;
 					}
 					break;
 				case 2:
-					if(this.findBoxByValue(0).getY() < 3) {//Astar.LENGTH-1) {
+					if(this.findTileByValue(0).getY() < 3) {//Astar.LENGTH-1) {
 						this.zeroDown();
 						i++;
 					}
 					break;
 				case 3:
-					if(this.findBoxByValue(0).getX() > 0) {
+					if(this.findTileByValue(0).getX() > 0) {
 						this.zeroOnLeft();
 						i++;
 					}
 					break;
 				case 4:
-					if(this.findBoxByValue(0).getX() < 3) {//Astar.LENGTH-1) {
+					if(this.findTileByValue(0).getX() < 3) {//Astar.LENGTH-1) {
 						this.zeroOnRight();
 						i++;
 					}
@@ -139,7 +135,7 @@ public class Grid {
 					System.out.println("Erreur Math.Random");
 			}
 		}
-		boxZero = findBoxByValue(0);
+		this.tileZero = findTileByValue(0);
 		this.nbMove = 0;
 	}
 
@@ -167,26 +163,26 @@ public class Grid {
 		
 		Grid gridTemp = new Grid(this.rowLength);
 		gridTemp = this;
-		
-		box goalBox;
-		box myBox;
+
+		Tile goalTile;
+		Tile myTile;
 		int valTemp;
 		int x = 0;
 		int y = 0;
 		//Nombre de permutation des cases jusqu'� �tat final
-		for(int boxValue = 1; boxValue < this.boxNumber; boxValue++) {
+		for(int tileValue = 1; tileValue < this.tileNumber; tileValue++) {
 			
-			x = findGoalByValue(boxValue).getX();
-			y = findGoalByValue(boxValue).getY();
+			x = findGoalByValue(tileValue).getX();
+			y = findGoalByValue(tileValue).getY();
+
+			goalTile = new Tile(x,y,tileValue);
+
+			myTile = gridTemp.findTileByValue(tileValue);
 			
-			goalBox = new box(x,y,boxValue);
-			
-			myBox = gridTemp.findBoxByValue(boxValue);
-			
-			if(goalBox.getValue() != myBox.getValue()) {
-				valTemp = gridTemp.getTab()[goalBox.getX()][goalBox.getY()].getValue();
-				gridTemp.getTab()[goalBox.getX()][goalBox.getY()].setValue(myBox.getValue());
-				gridTemp.getTab()[myBox.getX()][myBox.getY()].setValue(valTemp);
+			if(goalTile.getValue() != myTile.getValue()) {
+				valTemp = gridTemp.getTab()[goalTile.getX()][goalTile.getY()].getValue();
+				gridTemp.getTab()[goalTile.getX()][goalTile.getY()].setValue(myTile.getValue());
+				gridTemp.getTab()[myTile.getX()][myTile.getY()].setValue(valTemp);
 				permutations ++;
 			}
 		}
@@ -225,7 +221,7 @@ public class Grid {
 		System.out.println("");
 	}
 	
-	public box findBoxByValue(int value) {
+	public Tile findTileByValue(int value) {
 		for (int column = 0; column < this.rowLength; column++) {
 			for (int row = 0; row < this.columnLength; row++) {
 				if(this.tab[row][column].getValue() == value) {
@@ -236,34 +232,33 @@ public class Grid {
 		return null;
 	}
 	
-	public box findGoalByValue(int value) {
-		for(box myBox: goal){
-			if(myBox.getValue() == value) return myBox;
+	public Tile findGoalByValue(int value) {
+		for(Tile myTile: goal){
+			if(myTile.getValue() == value) return myTile;
 		}
 		return null;
 	}
 
  	public void initGoal() {
- 		//goal = new box[this.rowLength][this.columnLength];
 		int value = 1;
 		for(int column = 0; column < this.columnLength; column++){
 			for(int row = 0; row < this.rowLength; row++){
-				if(value == (this.boxNumber)) {
-					goal.add(new box(row, column, 0));
+				if(value == (this.tileNumber)) {
+					goal.add(new Tile(row, column, 0));
 				}
-				else goal.add(new box(row, column, value));
+				else goal.add(new Tile(row, column, value));
 				value ++;
 			}
 		}
 	}
 
-	public boolean isMoveable(box myBox) {
-		System.out.println("diff sur x" + Math.abs(myBox.getX()-this.boxZero.getX()));
-		System.out.println("diff sur y" + Math.abs(myBox.getY()-this.boxZero.getY()));
-		if( (Math.abs(myBox.getX()-this.boxZero.getX()) ==  1) && (myBox.getY()-this.boxZero.getY() == 0)) {
+	public boolean isMoveable(Tile myTile) {
+		System.out.println("diff sur x" + Math.abs(myTile.getX()-this.tileZero.getX()));
+		System.out.println("diff sur y" + Math.abs(myTile.getY()-this.tileZero.getY()));
+		if( (Math.abs(myTile.getX()-this.tileZero.getX()) ==  1) && (myTile.getY()-this.tileZero.getY() == 0)) {
 			return true;
 		}
-		else if((myBox.getX()-this.boxZero.getX() ==  0) && (Math.abs(myBox.getY()-this.boxZero.getY()) == 1)) {
+		else if((myTile.getX()-this.tileZero.getX() ==  0) && (Math.abs(myTile.getY()-this.tileZero.getY()) == 1)) {
 			return true;
 		}
 		return false;
@@ -273,46 +268,42 @@ public class Grid {
 	* Moves Functions *
 	*******************/
 	public void zeroUp() {
-		box zeroBox = this.findBoxByValue(0);
-		box myBox = this.tab[zeroBox.getX()][zeroBox.getY()-1];
-		zeroBox.setValue(myBox.getValue());
-		myBox.setValue(0);
+		Tile myTile = this.tab[tileZero.getX()][tileZero.getY()-1];
+		tileZero.setValue(myTile.getValue());
+		myTile.setValue(0);
 		this.nbMove++;
-		this.boxZero = this.findBoxByValue(0);
+		this.tileZero = this.findTileByValue(0);
 	}
 	
 	public void zeroDown() {
-		box zeroBox = this.findBoxByValue(0);
-		box myBox = this.tab[zeroBox.getX()][zeroBox.getY()+1];
-		zeroBox.setValue(myBox.getValue());
-		myBox.setValue(0);
+		Tile myTile = this.tab[tileZero.getX()][tileZero.getY()+1];
+		tileZero.setValue(myTile.getValue());
+		myTile.setValue(0);
 		this.nbMove++;
-		this.boxZero = this.findBoxByValue(0);
+		this.tileZero = this.findTileByValue(0);
 	}
 	
 	public void zeroOnRight() {
-		box zeroBox = this.findBoxByValue(0);
-		box myBox = this.tab[zeroBox.getX()+1][zeroBox.getY()];
-		zeroBox.setValue(myBox.getValue());
-		myBox.setValue(0);
+		Tile myTile = this.tab[tileZero.getX()+1][tileZero.getY()];
+		tileZero.setValue(myTile.getValue());
+		myTile.setValue(0);
 		this.nbMove++;
-		this.boxZero = this.findBoxByValue(0);
+		this.tileZero = this.findTileByValue(0);
 	}
 	
 	public void zeroOnLeft() {
-		box zeroBox = this.findBoxByValue(0);
-		box myBox = this.tab[zeroBox.getX()-1][zeroBox.getY()];
-		zeroBox.setValue(myBox.getValue());
-		myBox.setValue(0);
+		Tile myTile = this.tab[tileZero.getX()-1][tileZero.getY()];
+		tileZero.setValue(myTile.getValue());
+		myTile.setValue(0);
 		this.nbMove++;
-		this.boxZero = this.findBoxByValue(0);
+		this.tileZero = this.findTileByValue(0);
 	}
 
-	public void Swap(box myBox) {
-		this.boxZero.setValue(myBox.getValue());
-		myBox.setValue(0);
+	public void Swap(Tile myTile) {
+		this.tileZero.setValue(myTile.getValue());
+		myTile.setValue(0);
 		this.nbMove++;
-		this.boxZero = this.findBoxByValue(0);
+		this.tileZero = this.findTileByValue(0);
 	}
 
 	/***********************
@@ -333,15 +324,15 @@ public class Grid {
     public int getPriority() {
 		this.priority = 0;
 		
-		box myBox = new box();
-		box myGoalBox = new box();
-		for (int value=0; value < boxNumber; value++) {
-			myBox = findBoxByValue(value);
-			myGoalBox = findGoalByValue(value);
-			if(	myBox.getX() != myGoalBox.getX() || myBox.getY() != myGoalBox.getY()) {
+		Tile myTile = new Tile();
+		Tile myGoalTile = new Tile();
+		for (int value=0; value < tileNumber; value++) {
+			myTile = findTileByValue(value);
+			myGoalTile = findGoalByValue(value);
+			if(	myTile.getX() != myGoalTile.getX() || myTile.getY() != myGoalTile.getY()) {
 				
-				priority += Math.abs(myBox.getX() - myGoalBox.getX());
-				priority += Math.abs(myBox.getY() - myGoalBox.getY());
+				priority += Math.abs(myTile.getX() - myGoalTile.getX());
+				priority += Math.abs(myTile.getY() - myGoalTile.getY());
 			}
 		}
 		this.priority += this.nbMove;
@@ -356,7 +347,7 @@ public class Grid {
 		return this.nbMove;
 	}
 
-	public box[][] getTab() {
+	public Tile[][] getTab() {
 		return this.tab;
 	}
 
@@ -368,11 +359,15 @@ public class Grid {
 		this.parentID = parentID;
 	}
 
-	public int getBoxNumber() {
-		return this.boxNumber;
+	public int getTileNumber() {
+		return this.tileNumber;
 	}
 
 	public void setPriority(int priority) {
 		this.priority = priority;
+	}
+
+	public Tile getTileZero() {
+		return this.tileZero;
 	}
 }

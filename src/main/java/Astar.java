@@ -63,7 +63,7 @@ public class Astar {
 	private List<Grid> createSons(Grid parent) {
 		List<Grid> Sons = new ArrayList<Grid>();
 		
-		if(parent.findBoxByValue(0).getY() < LENGTH-1 ) {
+		if(parent.getTileZero().getY() < LENGTH-1 ) {
 			Grid son = new Grid(parent);
 			son.zeroDown();
 			if(!isParent(son)) {
@@ -72,7 +72,7 @@ public class Astar {
 			}
 		}
 		
-		if(parent.findBoxByValue(0).getY() > 0 ) {
+		if(parent.getTileZero().getY() > 0 ) {
 			Grid son = new Grid(parent);
 			son.zeroUp();
 			if(!isParent(son)) {
@@ -81,7 +81,7 @@ public class Astar {
 			}
 		}
 			
-		if(parent.findBoxByValue(0).getX() > 0 ) {
+		if(parent.getTileZero().getX() > 0 ) {
 			Grid son = new Grid(parent);
 			son.zeroOnLeft();
 			if(!isParent(son)) {
@@ -90,7 +90,7 @@ public class Astar {
 			}
 		}
 		
-		if(parent.findBoxByValue(0).getX() < LENGTH-1 ) {
+		if(parent.getTileZero().getX() < LENGTH-1 ) {
 			Grid son = new Grid(parent);
 			son.zeroOnRight();
 			if(!isParent(son)) {
@@ -140,11 +140,10 @@ public class Astar {
  	}
 
  	public boolean isFinish() {
- 		for(box goalBox: Grid.goal) {
- 			if(goalBox.getValue() != this.priorityGrid.getTab()[goalBox.getX()][goalBox.getY()].getValue()) {
+ 		for(Tile goalTile: Grid.goal) {
+ 			if(goalTile.getValue() != this.priorityGrid.getTab()[goalTile.getX()][goalTile.getY()].getValue()) {
 				return false;
 			}
-
  		}
  		
  		System.out.println(" *********************** ");
@@ -189,20 +188,6 @@ public class Astar {
  		return false;
  	}
 
- 	/*private boolean isAlreadyInClosedQueue(Grid myGrid) {
-		Grid gridToRemoved = new Grid(LENGTH);
-		for(Grid grid: this.closedQueue) {
-			if(areEquals(myGrid,grid)) {
-				if(myGrid.getNbMove() < grid .getNbMove()) {
-					gridToRemoved = grid;
-				}
-				else return true;
-			}
-		}
-		this.priorityQueue.remove(gridToRemoved);
-		return false;
-	}*/
- 	
  	private boolean areEquals(Grid grid1, Grid grid2) {
  		if(grid1.getColumnLength() != grid2.getColumnLength()) return false;
  		if(grid1.getRowLength() != grid2.getRowLength()) return false;
@@ -222,8 +207,6 @@ public class Astar {
 
 			for(Grid grid: this.closedQueue) {
 				if(child.getParentID() == grid.hashCode()){
-					System.out.println("id from child : " + child.getParentID());
-					System.out.println("id parent : " + grid.hashCode());
 					this.result.add(grid);
 					break;
 				}

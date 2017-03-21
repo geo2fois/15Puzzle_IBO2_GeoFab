@@ -45,6 +45,7 @@ public class SwingGUI extends JFrame{
                             g.Swap(g.getTab()[finalI][finalJ]);
                             //g.RefreshGrid();
                             GUIupdating(g);
+
                         }
                         else if(!g.isMoveable(g.getTab()[finalI][finalJ])){
                             System.out.println("The Tile " + String.valueOf(g.getTab()[finalI][finalJ].getValue()) + " is not movable");
@@ -98,7 +99,7 @@ public class SwingGUI extends JFrame{
 
                 result = algoAstar.getResult();
                 for(int i=result.size()-1; i>-1; i--) {
-                    System.out.println("nb " + i);
+                    //System.out.println("nb " + i);
                     GUIupdating(result.get(i));
                     //Wait
                 }
